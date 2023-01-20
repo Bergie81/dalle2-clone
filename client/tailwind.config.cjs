@@ -4,6 +4,13 @@ module.exports = {
 	content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
 	theme: {
 		extend: {
+			colors: {
+				primary: "#58BCB7",
+				secondary: "#6667AB",
+				tertiary: "#FACA57",
+				light: "#F5F5F5",
+				dark: "#333333",
+			},
 			screens: {
 				xs: "480px",
 			},
