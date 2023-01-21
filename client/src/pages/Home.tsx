@@ -2,7 +2,16 @@ import React, { useState, useEffect } from "react";
 
 import { Loader, Card, FormField } from "../components";
 
-const RenderCards = ({ data = [], title = "" }) => {
+interface Posts {
+	title: string;
+	data: [
+		{
+			_id: string;
+		}
+	];
+}
+
+const RenderCards = ({ data, title }: Posts) => {
 	if (data?.length > 0) {
 		return data.map((post) => <Card key={post._id} {...post} />);
 	}

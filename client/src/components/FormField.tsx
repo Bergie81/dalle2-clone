@@ -1,7 +1,54 @@
 import React from "react";
 
-const FormField = () => {
-	return <div>Form Field</div>;
+interface FormFieldProps {
+	labelName: string;
+	type: string;
+	name: string;
+	placeholder: string;
+	value: string;
+	handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	isSurpriseMe?: boolean;
+	handleSurpriseMe?: () => void;
+}
+
+const FormField = ({
+	labelName,
+	type,
+	name,
+	placeholder,
+	value,
+	handleChange,
+	isSurpriseMe,
+	handleSurpriseMe,
+}: FormFieldProps) => {
+	return (
+		<div>
+			<div className="flex items-center gap-2 mb-2">
+				<label className="block text-sm font-medium text-dark" htmlFor={name}>
+					{labelName}
+				</label>
+			</div>
+			<input
+				type={type}
+				id={name}
+				name={name}
+				placeholder={placeholder}
+				value={value}
+				onChange={handleChange}
+				required
+				className="bg-white border border-gray-300 text-dark text-sm rounded-lg focus:ring-secondary focus:border-secondary outline-none block w-full p-3"
+			/>
+			{isSurpriseMe && (
+				<button
+					type="button"
+					onClick={handleSurpriseMe}
+					className="font-semibold text-xs bg-white py-1 px-2 mt-2 rounded-md hover:bg-primary hover:text-white text-dark"
+				>
+					Surprise Me
+				</button>
+			)}
+		</div>
+	);
 };
 
 export default FormField;
