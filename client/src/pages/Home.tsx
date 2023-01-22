@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
 
 import { Loader, Card, FormField } from "../components";
-
-interface Posts {
-	title: string;
-	data: [
-		{
-			_id: string;
-		}
-	];
-}
+import { Posts } from "../types/interfaces";
 
 const RenderCards = ({ data, title }: Posts) => {
 	if (data?.length > 0) {
-		return data.map((post) => <Card key={post._id} {...post} />);
+		return (
+			<>
+				{data.map((post) => (
+					<Card key={post._id} {...post} />
+				))}
+			</>
+		);
 	}
 
 	return (
@@ -23,7 +21,7 @@ const RenderCards = ({ data, title }: Posts) => {
 
 const Home = () => {
 	const [loading, setLoading] = useState(false);
-	const [allPosts, setAllPosts] = useState(null);
+	const [allPosts, setAllPosts] = useState<[]>([]);
 
 	const [searchText, setSearchText] = useState("");
 
@@ -66,7 +64,18 @@ const Home = () => {
 				</div>
 
 				<div className="mt-16">
-					<FormField />
+					<FormField
+						labelName={""}
+						type={""}
+						name={""}
+						placeholder={""}
+						value={""}
+						handleChange={function (
+							e: React.ChangeEvent<HTMLInputElement>
+						): void {
+							throw new Error("Function not implemented.");
+						}}
+					/>
 				</div>
 
 				<div className="mt-10">

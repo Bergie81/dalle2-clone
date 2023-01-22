@@ -1,15 +1,6 @@
 import React from "react";
 
-interface FormFieldProps {
-	labelName: string;
-	type: string;
-	name: string;
-	placeholder: string;
-	value: string;
-	handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	isSurpriseMe?: boolean;
-	handleSurpriseMe?: () => void;
-}
+import { FormFieldProps } from "../types/interfaces";
 
 const FormField = ({
 	labelName,
