@@ -42,7 +42,32 @@ const CreatePost = () => {
 			alert("Please enter a prompt");
 		}
 	};
-	const handleSubmit = () => {};
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
+
+		if (form.prompt && form.image) {
+			setLoading(true);
+
+			try {
+				const response = await fetch("http://localhost:8080/api/v1/post", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(form),
+				});
+
+				await response.json();
+				navigate("/");
+			} catch (error) {
+				alert(error);
+			} finally {
+				setLoading(false);
+			}
+		} else {
+			alert("Please enter a prompt and generate an image");
+		}
+	};
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setForm({ ...form, [e.target.name]: e.target.value });
 	};
@@ -120,7 +145,7 @@ const CreatePost = () => {
 						type="submit"
 						className="mt-3 text-white bg-secondary font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
 					>
-						{loading ? "Loading..." : "Share with Community"}
+						{loading ? "Sharing..." : "Share with Community"}
 					</button>
 				</div>
 			</form>
