@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { Loader, Card, FormField } from "../components";
-import { Posts } from "../types/interfaces";
+import { Post, Posts } from "../types/interfaces";
 
 const RenderCards = ({ data, title }: Posts) => {
 	if (data?.length > 0) {
@@ -24,6 +24,8 @@ const Home = () => {
 	const [allPosts, setAllPosts] = useState<[]>([]);
 
 	const [searchText, setSearchText] = useState("");
+	const [searchResults, setSearchResults] = useState<any>([]);
+	const [searchTimeout, setSearchTimeout] = useState<any>(null);
 
 	useEffect(() => {
 		const fetchPosts = async () => {
@@ -50,6 +52,24 @@ const Home = () => {
 		fetchPosts();
 	}, []);
 
+	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+		clearTimeout(searchTimeout);
+		setSearchText(e.target.value);
+
+		setSearchTimeout(
+			setTimeout(() => {
+				const filterResults = allPosts.filter((post: Post) => {
+					return (
+						post.name.toLowerCase().includes(searchText.toLowerCase()) ||
+						post.prompt.toLowerCase().includes(searchText.toLowerCase())
+					);
+				});
+
+				setSearchResults(filterResults);
+			}, 300)
+		);
+	};
+
 	return (
 		<div>
 			<section className="max-w-7xl mx-auto">
@@ -63,37 +83,38 @@ const Home = () => {
 					</p>
 				</div>
 
-				<div className="mt-16">
+				<div className="mt-8">
 					<FormField
-						labelName={""}
-						type={""}
-						name={""}
-						placeholder={""}
-						value={""}
-						handleChange={function (
-							e: React.ChangeEvent<HTMLInputElement>
-						): void {
-							throw new Error("Function not implemented.");
-						}}
+						labelName="Search"
+						type="text"
+						name="text"
+						placeholder="Start typing here to filter posts"
+						value={searchText}
+						handleChange={handleSearch}
 					/>
 				</div>
 
-				<div className="mt-10">
+				<div className="mt-4">
 					{loading ? (
 						<div className="flex justify-center items-center">
 							<Loader />
 						</div>
 					) : (
 						<>
-							{searchText && (
-								<h2 className="font-medium text-dark text-xl mb-3">
-									Showing results for{" "}
-									<span className="text-dark">{searchText}</span>
-								</h2>
-							)}
+							<div className="h-10">
+								{searchText && (
+									<h2 className="font-medium text-dark text-xl mb-3">
+										Showing results for{" "}
+										<span className="text-dark">{searchText}</span>
+									</h2>
+								)}
+							</div>
 							<div className="grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-3">
 								{searchText ? (
-									<RenderCards data={[]} title="No search results found" />
+									<RenderCards
+										data={searchResults}
+										title="No search results found"
+									/>
 								) : (
 									<RenderCards data={allPosts} title="No posts found" />
 								)}

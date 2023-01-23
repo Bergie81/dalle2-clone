@@ -7,7 +7,7 @@ import { Post } from "../types/interfaces";
 
 const Card = ({ _id, name, prompt, image }: Post) => {
 	return (
-		<div className="rounded-xl group relative shadow-card hover:shadow-cardhover card">
+		<div className="rounded-xl group relative hover:shadow card">
 			<img
 				className="w-full h-auto object-cover rounded-xl"
 				src={image}
